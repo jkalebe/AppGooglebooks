@@ -1,13 +1,16 @@
 package br.com.example.googlebooks.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
+
+@Parcelize
 data class VolumeInfo(
     val title: String,
-    val descriptions: String?,
+    val description: String?,
     val authors: List<String>?,
     val publisher: String?,
     val publishedDate: String?,
     val pageCount: Int?,
     val imageLinks: ImageLinks?
-
-
-)
+):Parcelable
