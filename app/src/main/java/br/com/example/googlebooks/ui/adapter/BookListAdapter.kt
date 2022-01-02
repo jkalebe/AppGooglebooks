@@ -8,10 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.example.googlebooks.R
 import br.com.example.googlebooks.model.Volume
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_book.view.*
 
 class BookListAdapter(
-    val items: List<Volume>
+    private val items: List<Volume>,
+    private val onItemClick: (Volume) -> Unit
     ):RecyclerView.Adapter<BookListAdapter.BookHolder>(){
 
 
@@ -25,9 +27,19 @@ class BookListAdapter(
 
     override fun onBindViewHolder(holder: BookHolder, position: Int) {
         val volume = items[position]
+        if(volume.volumeInfo.imageLinks?.smallThumbnail != null){
+            Picasso.get().load(volume.volumeInfo.imageLinks?.smallThumbnail).into(
+                holder.imgCover
+            );
+        }else {
+            holder.imgCover.setImageResource(R.drawable.ic_broken_image)
+        }
         holder.txtTitle.text = volume.volumeInfo.title
         holder.txtAuthor.text = volume.volumeInfo.authors?.joinToString() ?: ""
         holder.txtPages.text = volume.volumeInfo.pageCount?.toString() ?: ""
+        holder.itemView.setOnClickListener{
+            onItemClick(volume)
+        }
     }
 
     override fun getItemCount(): Int = items.size
