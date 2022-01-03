@@ -14,7 +14,10 @@ import br.com.example.googlebooks.R
 import br.com.example.googlebooks.model.BookHttp
 import br.com.example.googlebooks.model.Volume
 import br.com.example.googlebooks.ui.adapter.BookListAdapter
+import br.com.example.googlebooks.ui.adapter.BookPagerAdapter
 import br.com.example.googlebooks.ui.viewmodel.BookListViewModel
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,40 +25,23 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
-    val viewModel: BookListViewModel by lazy {
-        ViewModelProvider(this).get(BookListViewModel::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        viewModel.state.observe(this, Observer { state ->
-            when(state){
-                is BookListViewModel.State.Loading -> {
-                    vwLoading.visibility = View.VISIBLE
-                }
-                is BookListViewModel.State.Loaded -> {
-                    vwLoading.visibility = View.GONE
-                    recyclerView.adapter = BookListAdapter(state.items, this@MainActivity::openBookDetail)
-                }
-                is BookListViewModel.State.Error ->{
-                    vwLoading.visibility = View.GONE
-                    if (!state.hasConsumed){
-                        state.hasConsumed = true
-                        Toast.makeText(this@MainActivity, R.string.error_loading, Toast.LENGTH_LONG).show()
-                    }
+        viewPager.adapter = BookPagerAdapter(this)
+        TabLayoutMediator(tabLayout, viewPager){ tab,position ->
+            tab.setText(
+                if(position == 0)
+                    R.string.tabs_books
+                else
+                    R.string.tab_favorites
+            )
+        }.attach()
 
-                }
-            }
-
-        })
-        viewModel.loadBooks()
 
     }
 
-    private fun openBookDetail(volume: Volume){
-        BookDetailActivity.open(this, volume)
-    }
+
 }
