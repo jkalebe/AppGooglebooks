@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jerem/AndroidStudioProjects/Googlebooks/app/src/main/res/drawable/loading_background.xml" value="0.1953125" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/Googlebooks/app/src/main/res/layout/activity_book_detail.xml" value="0.25" />
-        <entry key="..\:/Users/jerem/AndroidStudioProjects/Googlebooks/app/src/main/res/layout/activity_main.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/jerem/AndroidStudioProjects/Googlebooks/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/Googlebooks/app/src/main/res/layout/item_book.xml" value="0.25" />
+        <entry key="..\:/Users/jerem/AndroidStudioProjects/Googlebooks/app/src/main/res/layout/layout_loading.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/Googlebooks/app/src/main/res/xml/network_config.xml" value="0.17916666666666667" />
       </map>
     </option>

@@ -3,6 +3,7 @@ package br.com.example.googlebooks.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -30,9 +31,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        viewModel.booksList.observe(this, Observer { list ->
-            list?.let {
-                recyclerView.adapter = BookListAdapter(it, this@MainActivity::openBookDetail) }
+        viewModel.state.observe(this, Observer { state ->
+            when(state){
+                is BookListViewModel.State.Loading -> {
+                    vwLoading.visibility = View.VISIBLE
+                }
+                is BookListViewModel.State.Loaded -> {
+                    vwLoading.visibility = View.GONE
+                    recyclerView.adapter = BookListAdapter(state.items, this@MainActivity::openBookDetail)
+                }
+                is BookListViewModel.State.Error ->{
+                    vwLoading.visibility = View.GONE
+                    if (!state.hasConsumed){
+                        state.hasConsumed = true
+                        Toast.makeText(this@MainActivity, R.string.error_loading, Toast.LENGTH_LONG).show()
+                    }
+
+                }
+            }
+
         })
         viewModel.loadBooks()
 

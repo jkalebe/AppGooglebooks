@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Google books</string>
+    <string name="message_loading">Carregando...</string>
+    <string name="error_loading">Erro ao carregar a lista de livros</string>
 </resources>

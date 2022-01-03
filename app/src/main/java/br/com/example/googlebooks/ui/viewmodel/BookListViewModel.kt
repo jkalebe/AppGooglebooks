@@ -7,24 +7,40 @@ import androidx.lifecycle.viewModelScope
 import br.com.example.googlebooks.model.BookHttp
 import br.com.example.googlebooks.model.Volume
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class BookListViewModel: ViewModel(){
 
 
-    private val _bookList = MutableLiveData<List<Volume>>()
-    val booksList: LiveData<List<Volume>>
-        get() = _bookList
+    private val _state = MutableLiveData<State>()
+    val state: LiveData<State>
+        get() = _state
 
     fun loadBooks(){
-        if (_bookList.value != null) return
+        if (_state.value != null) return
 
         viewModelScope.launch {
+            _state.value = State.Loading
+
             val result = withContext(Dispatchers.IO){
                 BookHttp.searchBook("Dominando o Android")
             }
-            _bookList.value = result?.items!!
+            if (result?.items == null){
+                _state.value = State.Error(Exception("Error loading books"), false)
+            }else{
+                _state.value = State.Loaded(result?.items)
+            }
+
         }
+    }
+
+    sealed class State{
+        object Loading: State()
+        data class Loaded(val items: List<Volume>): State()
+        data class Error(val e: Throwable, var hasConsumed: Boolean): State()
+
     }
 }
