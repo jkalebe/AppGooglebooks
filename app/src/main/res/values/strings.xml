@@ -4,4 +4,6 @@
     <string name="error_loading">Erro ao carregar a lista de livros</string>
     <string name="tabs_books">Livros</string>
     <string name="tab_favorites">Favoritos</string>
+    <string name="search_query_hint">Buscar por livros</string>
+    <string name="view_book_web">Visualizar livro na web</string>
 </resources>

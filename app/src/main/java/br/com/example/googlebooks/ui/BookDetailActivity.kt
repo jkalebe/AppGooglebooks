@@ -2,8 +2,11 @@ package br.com.example.googlebooks.ui
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,12 +29,15 @@ class BookDetailActivity : AppCompatActivity() {
         ).get(BookDetailViewModel::class.java)
     }
 
+    lateinit var volume: Volume
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_detail)
         val volume = intent.getParcelableExtra<Volume>(EXTRA_BOOK)
         if (volume != null){
+            this.volume = volume
             if(volume.volumeInfo.imageLinks?.smallThumbnail != null){
                 Picasso.get().load(volume.volumeInfo.imageLinks?.smallThumbnail).into(
                     imgCover
@@ -65,6 +71,19 @@ class BookDetailActivity : AppCompatActivity() {
         }else{
             finish()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.book_detail, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.view_book_web && volume.selfLink != null)
+            startActivity(Intent(
+                Intent.ACTION_VIEW, Uri.parse("https://books.google.com.br/books?id=${volume.id}")
+            ))
+        return super.onOptionsItemSelected(item)
     }
 
     companion object{

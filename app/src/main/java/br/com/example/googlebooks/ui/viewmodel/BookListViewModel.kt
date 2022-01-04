@@ -22,11 +22,16 @@ class BookListViewModel: ViewModel(){
     fun loadBooks(){
         if (_state.value != null) return
 
+        search("Dominando o Android")
+
+    }
+
+    fun search(query: String) {
         viewModelScope.launch {
             _state.value = State.Loading
 
             val result = withContext(Dispatchers.IO){
-                BookHttp.searchBook("Dominando o Android")
+                BookHttp.searchBook(query)
             }
             if (result?.items == null){
                 _state.value = State.Error(Exception("Error loading books"), false)

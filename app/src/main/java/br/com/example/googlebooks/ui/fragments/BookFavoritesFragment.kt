@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.example.googlebooks.R
 import br.com.example.googlebooks.model.Volume
@@ -38,8 +39,14 @@ class BookFavoritesFragment:Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        searchView.visibility = View.GONE
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = layoutManager
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(requireContext(), layoutManager.orientation)
+        )
+
         viewModel.favoriteBooks.observe(viewLifecycleOwner, Observer { items ->
 
                     vwLoading.visibility = View.GONE

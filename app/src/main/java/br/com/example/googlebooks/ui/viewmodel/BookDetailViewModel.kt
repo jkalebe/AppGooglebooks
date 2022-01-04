@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.example.googlebooks.model.Volume
 import br.com.example.googlebooks.repository.BookRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BookDetailViewModel(
     private val repository: BookRepository
@@ -22,14 +24,18 @@ class BookDetailViewModel(
 
     fun saveToFavorites(volume: Volume){
         viewModelScope.launch {
-            repository.save(volume)
+            withContext(Dispatchers.IO){
+                repository.save(volume)
+            }
             _isFavorite.value = repository.isFavorite(volume.id)
         }
     }
 
     fun removeFromFavorites(volume: Volume){
         viewModelScope.launch {
-            repository.delete(volume)
+            withContext(Dispatchers.IO){
+                repository.delete(volume)
+            }
             _isFavorite.value = repository.isFavorite(volume.id)
         }
     }
