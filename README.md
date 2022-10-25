@@ -6,6 +6,10 @@ Baseado na playlist <a target="_blank" href='https://youtube.com/playlist?list=P
 </p>
 <img src="https://res.cloudinary.com/nenhum/image/upload/v1648754250/AppGoogleBook_aac8v9.png" align="center" width="100%"/>
 
+## Hacktoberfest 2022 
+This project has been submitted for hacktoberfest 2022. [See more here](https://hacktoberfest.com/
+
+
 ## Tech stack & Open-source libraries
 - 100% [Kotlin](https://kotlinlang.org/)
 - Material Design & Animations
